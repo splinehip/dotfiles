@@ -5,6 +5,8 @@ import = ["~/.config/alacritty/themes/nordic.toml"]
 program = "/usr/local/bin/bash"
 args = ["-l"]
 
+[env]
+TERM = "xterm-256color"
 
 [window]
 dimensions = { columns = 120, lines = 35 }
