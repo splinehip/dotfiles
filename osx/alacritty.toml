@@ -1,0 +1,46 @@
+import = ["~/.config/alacritty/themes/nordic.toml"]
+
+
+[shell]
+program = "/usr/local/bin/bash"
+args = ["-l"]
+
+
+[window]
+dimensions = { columns = 120, lines = 35 }
+position = { x = 800, y = 500 }
+decorations = "full"
+option_as_alt = "Both"
+
+
+[cursor.style]
+shape = "Beam"
+
+
+[font]
+size = 14
+
+[font.bold]
+family = "Hack Nerd Font Mono"
+style = "Bold"
+
+[font.italic]
+family = "Hack Nerd Font Mono"
+style = "Italic"
+
+[font.normal]
+family = "Hack Nerd Font Mono"
+style = "Regular"
+
+
+[[keyboard.bindings]]
+chars = "\u001b[1;5C"
+# action = "WordRight"
+key = "Right"
+mods = "Alt"
+
+[[keyboard.bindings]]
+chars = "\u001b[1;5D"
+# action = "WordLeft"
+key = "Left"
+mods = "Alt"

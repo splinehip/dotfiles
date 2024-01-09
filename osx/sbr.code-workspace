@@ -1,0 +1,79 @@
+{
+  "folders": [
+    {
+      "path": "./services"
+    },
+    {
+      "path": "./dotfiles"
+    },
+    // {
+    // 	"path": "./docker-jitsi-meet"
+    // },
+    // {
+    // 	"path": "./jvb"
+    // },
+    {
+      "path": "./build-image"
+    },
+    // {
+    //   "path": "./gnome_glib"
+    // },
+    // {
+    //   "path": "./gstreamer"
+    // },
+    // {
+    //   "path": "./gstreamer-pkg"
+    // },
+    {
+      "path": "./deployments"
+    },
+  ],
+  "settings": {
+    "files.autoSave": "onFocusChange",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "files.exclude": {
+      ".vscode": true,
+      "**/*.[od]": true,
+      //"**/*.gitignore": true,
+      "**/*.out": true,
+      "*.code-workspace": true,
+    },
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.renderWhitespace": "all",
+    "editor.cursorBlinking": "phase",
+    "editor.rulers": [
+      {
+        "column": 80,
+        "color": "#520052",
+      },
+      {
+        "column": 105,
+        "color": "#494949"
+      },
+    ],
+    "editor.minimap.scale": 3,
+    "editor.bracketPairColorization.enabled": true,
+    "files.associations": {
+      "Makefile": "makefile",
+      "makefile.*": "makefile",
+    },
+    "[makefile]": {
+      "editor.insertSpaces": false,
+      "editor.detectIndentation": false
+    },
+    "git.ignoreLimitWarning": true,
+    "[go]": {
+      "editor.formatOnSaveMode": "file"
+    },
+    "go.gopath": "/Users/20607157/go",
+    "go.useLanguageServer": true,
+    // Run Lint tool on save.
+    "go.lintOnSave": "file",
+    "go.lintTool": "golint",
+    "go.lintFlags": [
+      "--exclude=\"\bexported \\w+ (\\S*['.]*)([a-zA-Z'.*]*) should have comment or be unexported\b\""
+    ],
+  },
+}
