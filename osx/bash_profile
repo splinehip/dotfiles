@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+source ~/.env-secrets
+
+export PS1="\u@\h: \w$ "
+
+export LANG="ru_RU.UTF-8"
+export LC_COLLATE="ru_RU.UTF-8"
+export LC_CTYPE="ru_RU.UTF-8"
+export LC_MESSAGES="ru_RU.UTF-8"
+export LC_MONETARY="ru_RU.UTF-8"
+export LC_NUMERIC="ru_RU.UTF-8"
+export LC_TIME="ru_RU.UTF-8"
+export LC_ALL=""
+
+source ~/.git-completion.bash
+source ~/.make-completion.bash
+source ~/.fzf.bash
+
+if [[ -f /usr/local/etc/bash_completion  ]]; then
+   . /usr/local/etc/bash_completion
+fi
+
+tunnelblick_disconnect() {
+    osascript -e "tell application \"Tunnelblick\"" -e "disconnect all" -e "end tell"
+    sleep 3
+}
+
+alias oak='tunnelblick_disconnect; osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e\
+  "connect \"oak_ovfedorchenko_stob-public-external\"" -e "end tell" && oathtool --totp -b -d 6 $OAK_TOKEN | tr -d "\n" | pbcopy'
+
+alias cloud='tunnelblick_disconnect; osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e\
+  "connect \"sberdevices-ovfedorchenko\"" -e "end tell" && oathtool --totp -b -d 6 $CLOUD_TOKEN | tr -d "\n" | pbcopy'
+
+alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
+alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+
+
+[ -s "/usr/local/opt/jabba/share/jabba/jabba.sh" ] && . "/usr/local/opt/jabba/share/jabba/jabba.sh"
+
+eval "$(/usr/local/bin/brew shellenv)"
+
+#export GOSUMDB=off
+export GO111MODULE=on
+
+export FZF_DEFAULT_COMMAND='vim $(fzf --height 70% --border)'
+
+EXT_PATH=/Users/20607157/go/bin:/usr/local/include:/usr/local/opt/openssl@3/bin:/usr/local/opt/gnu-getopt/bin:/usr/local/opt/make/libexec/gnubin:/usr/local/opt/gnu-sed/libexec/gnubin:/usr/local/opt/grep/libexec/gnubin:/usr/local/opt/rsync/bin:/usr/local/opt/gradle@7/bin
+
+export PATH=$EXT_PATH:$PATH
