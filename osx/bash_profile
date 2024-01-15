@@ -26,15 +26,40 @@ tunnelblick_disconnect() {
     sleep 3
 }
 
-alias oak='tunnelblick_disconnect; osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e\
+fn_onkavd() {
+  sudo "-v" && \
+  sudo launchctl kill -9 system/org.killkavd.LaunchAtStartup
+}
+
+fn_offkavd() {
+  sudo "-v" && \
+  fn_onkavd; \
+  sudo launchctl unload /Library/LaunchDaemons/org.killkavd.LaunchAtStartup.plist \
+  && sudo launchctl load /Library/LaunchDaemons/org.killkavd.LaunchAtStartup.plist
+}
+
+cisco_connect() {
+  osascript /Users/20607157/Documents/git/dotfiles/osx/cisco.connect.AppleScript
+}
+
+cisco_disconnect() {
+  osascript /Users/20607157/Documents/git/dotfiles/osx/cisco.disconnect.AppleScript
+}
+
+alias oak='offsigma; tunnelblick_disconnect; osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e\
   "connect \"oak_ovfedorchenko_stob-public-external\"" -e "end tell" && oathtool --totp -b -d 6 $OAK_TOKEN | tr -d "\n" | pbcopy'
 
-alias cloud='tunnelblick_disconnect; osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e\
+alias cloud='offsigma; tunnelblick_disconnect; osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e\
   "connect \"sberdevices-ovfedorchenko\"" -e "end tell" && oathtool --totp -b -d 6 $CLOUD_TOKEN | tr -d "\n" | pbcopy'
+
+alias onkavd='fn_onkavd'
+alias offkavd='fn_offkavd'
+
+alias sigma='tunnelblick_disconnect; fn_onkavd; cisco_connect && fn_offkavd'
+alias offsigma='cisco_disconnect; fn_offkavd'
 
 alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
-
 
 [ -s "/usr/local/opt/jabba/share/jabba/jabba.sh" ] && . "/usr/local/opt/jabba/share/jabba/jabba.sh"
 
