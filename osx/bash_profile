@@ -55,8 +55,8 @@ alias cloud='offsigma; tunnelblick_disconnect; osascript -e "tell application \"
 alias onkavd='fn_onkavd'
 alias offkavd='fn_offkavd'
 
-alias sigma='tunnelblick_disconnect; fn_onkavd; cisco_connect && fn_offkavd'
-alias offsigma='cisco_disconnect; fn_offkavd'
+alias sigma='tunnelblick_disconnect; cisco_connect'
+alias offsigma='cisco_disconnect'
 
 alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
