@@ -38,12 +38,23 @@ fn_offkavd() {
   && sudo launchctl load /Library/LaunchDaemons/org.killkavd.LaunchAtStartup.plist
 }
 
+cisco_is_connected() {
+  if [[ $(ifconfig) == *"utun4"* ]]; then
+    return 0
+  fi
+  return 1
+}
+
 cisco_connect() {
-  osascript /Users/20607157/Documents/git/dotfiles/osx/cisco.connect.AppleScript
+  if ! cisco_is_connected; then
+    osascript /Users/20607157/Documents/git/dotfiles/osx/cisco.connect.AppleScript
+  fi
 }
 
 cisco_disconnect() {
-  osascript /Users/20607157/Documents/git/dotfiles/osx/cisco.disconnect.AppleScript
+  if cisco_is_connected; then
+    osascript /Users/20607157/Documents/git/dotfiles/osx/cisco.disconnect.AppleScript
+  fi
 }
 
 alias oak='offsigma; tunnelblick_disconnect; osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e\
