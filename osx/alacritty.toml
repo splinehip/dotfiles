@@ -1,4 +1,4 @@
-import = ["~/.config/alacritty/themes/nordic.toml"]
+import = ["~/.config/alacritty/alacritty-theme/themes/nordic.toml"]
 
 
 [shell]
