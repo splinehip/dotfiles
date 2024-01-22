@@ -28,14 +28,17 @@ tunnelblick_disconnect() {
 
 fn_onkavd() {
   sudo "-v" && \
-  sudo launchctl kill -9 system/org.killkavd.LaunchAtStartup
+  if [[ $(sudo launchctl list) != *"com.kaspersky.kav.kavd"* ]]; then
+    sudo launchctl load /Library/LaunchDaemons/com.kaspersky.kav.kavd.plist
+  fi
 }
 
 fn_offkavd() {
   sudo "-v" && \
-  fn_onkavd; \
-  sudo launchctl unload /Library/LaunchDaemons/org.killkavd.LaunchAtStartup.plist \
-  && sudo launchctl load /Library/LaunchDaemons/org.killkavd.LaunchAtStartup.plist
+  if [[ $(sudo launchctl list) == *"com.kaspersky.kav.kavd"* ]]; then
+    sudo launchctl kill -9 system/com.kaspersky.kav.kavd;
+    sudo launchctl unload /Library/LaunchDaemons/com.kaspersky.kav.kavd.plist
+  fi
 }
 
 cisco_is_connected() {
