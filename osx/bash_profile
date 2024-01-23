@@ -18,7 +18,7 @@ source ~/.git-completion.bash
 #source ~/.make-completion.bash
 #source ~/.fzf.bash
 
-[ -s "/usr/local/opt/jabba/share/jabba/jabba.sh" ] && . "/usr/local/opt/jabba/share/jabba/jabba.sh"
+[ -s "/Users/20607157/.jabba/jabba.sh" ] && source "/Users/20607157/.jabba/jabba.sh"
 [[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]] && . "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
 
 tunnelblick_disconnect() {
