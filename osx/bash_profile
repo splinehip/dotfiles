@@ -21,11 +21,6 @@ source ~/.git-completion.bash
 [ -s "/Users/20607157/.jabba/jabba.sh" ] && source "/Users/20607157/.jabba/jabba.sh"
 [[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]] && . "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
 
-tunnelblick_disconnect() {
-    osascript -e "tell application \"Tunnelblick\"" -e "disconnect all" -e "end tell"
-    sleep 3
-}
-
 fn_onkavd() {
   sudo "-v" && \
   if [[ $(sudo launchctl list) != *"com.kaspersky.kav.kavd"* ]]; then
@@ -39,6 +34,19 @@ fn_offkavd() {
     sudo launchctl kill -9 system/com.kaspersky.kav.kavd;
     sudo launchctl unload /Library/LaunchDaemons/com.kaspersky.kav.kavd.plist
   fi
+}
+
+tunnelblick_connect() {
+  cisco_disconnect; tunnelblick_disconnect; \
+  osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e "connect \"$1\"" -e "end tell" \
+  && oathtool --totp -b -d 6 $2 | tr -d "\n" | pbcopy \
+  && osascript -e "tell application \"System Events\" to keystroke \"v\" using command down" \
+  && osascript -e "tell application \"System Events\" to keystroke return"
+}
+
+tunnelblick_disconnect() {
+  osascript -e "tell application \"Tunnelblick\"" -e "disconnect all" -e "end tell"
+  sleep 3
 }
 
 cisco_is_connected() {
@@ -60,17 +68,14 @@ cisco_disconnect() {
   fi
 }
 
-alias oak='offsigma; tunnelblick_disconnect; osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e\
-  "connect \"oak\"" -e "end tell" && oathtool --totp -b -d 6 $OAK_TOKEN | tr -d "\n" | pbcopy'
-
-alias cloud='offsigma; tunnelblick_disconnect; osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e\
-  "connect \"cloud\"" -e "end tell" && oathtool --totp -b -d 6 $CLOUD_TOKEN | tr -d "\n" | pbcopy'
-
-alias onkavd='fn_onkavd'
-alias offkavd='fn_offkavd'
+alias oak='tunnelblick_connect "oak" $OAK_TOKEN'
+alias cloud='tunnelblick_connect "cloud" $CLOUD_TOKEN'
 
 alias sigma='tunnelblick_disconnect; cisco_connect'
 alias offsigma='cisco_disconnect'
+
+alias onkavd='fn_onkavd'
+alias offkavd='fn_offkavd'
 
 alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
