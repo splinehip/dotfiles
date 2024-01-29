@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+true=0
+false=1
+
 export PS1="\u@\h: \w$ "
 
 export LANG="ru_RU.UTF-8"
@@ -37,7 +40,7 @@ fn_offkavd() {
 }
 
 tunnelblick_connect() {
-  cisco_disconnect; tunnelblick_disconnect; \
+  tunnelblick_disconnect; cisco_disconnect; \
   osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e "connect \"$1\"" -e "end tell" \
   && oathtool --totp -b -d 6 $2 | tr -d "\n" | pbcopy \
   && osascript -e "tell application \"System Events\" to keystroke \"v\" using command down" \
@@ -51,9 +54,9 @@ tunnelblick_disconnect() {
 
 cisco_is_connected() {
   if [[ $(ifconfig) == *"utun4"* ]]; then
-    return 0
+    return $true
   fi
-  return 1
+  return $false
 }
 
 cisco_connect() {
