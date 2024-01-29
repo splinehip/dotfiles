@@ -40,7 +40,9 @@ fn_offkavd() {
 }
 
 tunnelblick_connect() {
-  tunnelblick_disconnect; cisco_disconnect; \
+  tunnelblick_disconnect
+  cisco_disconnect
+
   osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e "connect \"$1\"" -e "end tell" \
   && oathtool --totp -b -d 6 $2 | tr -d "\n" | pbcopy \
   && osascript -e "tell application \"System Events\" to keystroke \"v\" using command down" \
@@ -48,33 +50,31 @@ tunnelblick_connect() {
 }
 
 tunnelblick_disconnect() {
-  osascript -e "tell application \"Tunnelblick\"" -e "disconnect all" -e "end tell"
-  sleep 3
-}
+  res=$(osascript -e "tell application \"Tunnelblick\"" -e "disconnect all" -e "end tell")
 
-cisco_is_connected() {
-  if [[ $(ifconfig) == *"utun4"* ]]; then
-    return $true
+  if [[ $res -ne 0 ]]; then
+    sleep 2
   fi
-  return $false
 }
 
 cisco_connect() {
-  if ! cisco_is_connected; then
-    osascript ~/sber/dotfiles/osx/cisco.connect.AppleScript
-  fi
+  tunnelblick_disconnect
+  cisco_disconnect
+
+  osascript ~/sber/dotfiles/osx/cisco.connect.AppleScript
 }
 
 cisco_disconnect() {
-  if cisco_is_connected; then
+  if [[ $(ifconfig) == *"utun4"* ]]; then
     osascript ~/sber/dotfiles/osx/cisco.disconnect.AppleScript
+    sleep 2
   fi
 }
 
 alias oak='tunnelblick_connect "oak" $OAK_TOKEN'
 alias cloud='tunnelblick_connect "cloud" $CLOUD_TOKEN'
 
-alias sigma='tunnelblick_disconnect; cisco_connect'
+alias sigma='cisco_connect'
 alias offsigma='cisco_disconnect'
 
 alias onkavd='fn_onkavd'
