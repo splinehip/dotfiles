@@ -16,3 +16,4 @@ tell application "System Events"
 		click button "Connect" of window 2
 	end tell
 end tell
+return 0

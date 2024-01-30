@@ -40,42 +40,66 @@ fn_offkavd() {
 }
 
 tunnelblick_connect() {
-  tunnelblick_disconnect
-  cisco_disconnect
+  disconnect_all
 
-  osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e "connect \"$1\"" -e "end tell" \
+  res=$(osascript -e "tell application \"/Applications/Tunnelblick.app\"" -e "connect \"$1\"" -e "end tell" \
   && oathtool --totp -b -d 6 $2 | tr -d "\n" | pbcopy \
   && osascript -e "tell application \"System Events\" to keystroke \"v\" using command down" \
-  && osascript -e "tell application \"System Events\" to keystroke return"
+  && osascript -e "tell application \"System Events\" to keystroke return")
+
+  if [[ $res -eq 0 ]]; then
+    echo "tunnelblick connection successfully started"
+  else
+    echo "fail to start tunnelblick connection"
+  fi
 }
 
 tunnelblick_disconnect() {
   res=$(osascript -e "tell application \"Tunnelblick\"" -e "disconnect all" -e "end tell")
-
   if [[ $res -ne 0 ]]; then
-    sleep 2
+    sleep 3
+    return $true
   fi
+  return $false
 }
 
 cisco_connect() {
-  tunnelblick_disconnect
-  cisco_disconnect
+  disconnect_all
 
-  osascript ~/sber/dotfiles/osx/cisco.connect.AppleScript
+  res=$(osascript ~/sber/dotfiles/osx/cisco.connect.AppleScript)
+  if [[ $res -eq 0 ]]; then
+    echo "cisco connection process successfully started"
+  else
+    echo "fail to start cisco connection process"
+  fi
 }
 
 cisco_disconnect() {
   if [[ $(ifconfig) == *"utun4"* ]]; then
-    osascript ~/sber/dotfiles/osx/cisco.disconnect.AppleScript
-    sleep 2
+    res=$(osascript ~/sber/dotfiles/osx/cisco.disconnect.AppleScript)
+    if [[ $res -eq 0 ]]; then
+      sleep 2
+      return $true
+    fi
+  fi
+  return $false
+}
+
+disconnect_all() {
+  if tunnelblick_disconnect; then
+    echo "tunnelblick was disconnected"
+  elif cisco_disconnect; then
+    echo "cisco was disconnected"
+  else
+    echo "no active connections"
   fi
 }
 
 alias oak='tunnelblick_connect "oak" $OAK_TOKEN'
 alias cloud='tunnelblick_connect "cloud" $CLOUD_TOKEN'
-
 alias sigma='cisco_connect'
-alias offsigma='cisco_disconnect'
+
+alias offvpn='disconnect_all'
 
 alias onkavd='fn_onkavd'
 alias offkavd='fn_offkavd'

@@ -18,3 +18,4 @@ tell application "System Events"
 	end tell
 	set visible of application process "Cisco AnyConnect Secure Mobility Client" to false
 end tell
+return 0
