@@ -4,26 +4,11 @@
       "path": "./services"
     },
     {
-      "path": "./dotfiles"
+    	"path": "./dotfiles"
     },
-    // {
-    // 	"path": "./docker-jitsi-meet"
-    // },
-    // {
-    // 	"path": "./jvb"
-    // },
     {
       "path": "./build-image"
     },
-    // {
-    //   "path": "./gnome_glib"
-    // },
-    // {
-    //   "path": "./gstreamer"
-    // },
-    // {
-    //   "path": "./gstreamer-pkg"
-    // },
     {
       "path": "./deployments"
     },
@@ -49,12 +34,13 @@
         "color": "#520052",
       },
       {
-        "column": 105,
+        "column": 120,
         "color": "#494949"
       },
     ],
     "editor.minimap.scale": 3,
     "editor.bracketPairColorization.enabled": true,
+    "editor.fontFamily": "Hack Nerd Font Mono",
     "files.associations": {
       "Makefile": "makefile",
       "makefile.*": "makefile",
