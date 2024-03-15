@@ -25,4 +25,8 @@ elif [[ $type == "sh" ]]; then
     kubectl --kubeconfig ~/Downloads/oak/$cfg exec -i -t -n $ns $container_name \
     -c $service -- sh -c "clear; (bash || ash || sh)"
 
+elif [[ $type == "del" ]]; then
+
+    kubectl --kubeconfig ~/Downloads/oak/$cfg -n $ns delete pod $container_name --now
+
 fi
