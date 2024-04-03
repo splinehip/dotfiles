@@ -47,9 +47,12 @@
         lgfzf = !git-lg-fzf
         rank = shortlog -sn --no-merges
         cmt = !git add . && git add -u && git commit -m
+        recmt = ! git add . && git add -u && git commit --amend --no-edit
         details = log -n1 -p --format=fuller
         d = difftool
         tags = !git for-each-ref --sort=-committerdate --format='%(color:131)%(refname:short)%(color:reset) %(color:113)(%(taggerdate))%(color:reset) - %(subject) %(body)' refs/tags
+        rm-merged = !git branch -d $(git branch --merged | grep -v "master" | grep -v "develop")
+        prune = !git remote prune origin
 
 [filter "lfs"]
         clean = git-lfs clean -- %f
