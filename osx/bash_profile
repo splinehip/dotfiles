@@ -97,6 +97,7 @@ disconnect_all() {
 
 alias oak='tunnelblick_connect "oak" $OAK_TOKEN'
 alias cloud='tunnelblick_connect "cloud" $CLOUD_TOKEN'
+alias cloud-tcp='tunnelblick_connect "cloud-tcp" $CLOUD_TOKEN'
 alias sigma='cisco_connect'
 
 alias offvpn='disconnect_all'
