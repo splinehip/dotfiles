@@ -1,32 +1,48 @@
 #!/usr/bin/env bash
 
-cfg="kubeconfig.$1"
+cfg="$HOME/Downloads/oak/kubeconfig.$1.json"
 ns=$2
 type=$3
 service=$4
 
 if [[ $type == "pods" ]]; then
+    cmd="kubectl --kubeconfig $cfg -n $ns get pods"
+
+    echo "cmd: $cmd"
     echo "|| ========= Geted pods ========= ||"
-    kubectl --kubeconfig ~/Downloads/oak/$cfg -n $ns get pods
+
+    eval $cmd
     exit 0
 fi
 
-container_name=$(kubectl --kubeconfig ~/Downloads/oak/$cfg -n $ns get pods | rg $service | awk '{print $1}')
+container_name=$(kubectl --kubeconfig $cfg -n $ns get pods | rg $service | awk '{print $1}')
 
 echo "Try connecting using container name: $container_name"
 
 if [[ $type == "log" ]]; then
 
-    kubectl --kubeconfig ~/Downloads/oak/$cfg -n $ns logs -f --tail=7000 $container_name \
-    | zap-pretty | sed -u 's/\\n/\n/g' | sed -u 's/\\"/"/g'  | sed -u 's/\\r//g'
+    cmd="kubectl --kubeconfig $cfg -n $ns logs -f --tail=7000 $container_name \
+    | zap-pretty | sed -u 's/\\n/\n/g' | sed -u 's/\\"/"/g'  | sed -u 's/\\r//g'"
+
+    echo "cmd: $cmd"
+
+    eval $cmd
 
 elif [[ $type == "sh" ]]; then
 
-    kubectl --kubeconfig ~/Downloads/oak/$cfg exec -i -t -n $ns $container_name \
-    -c $service -- sh -c "clear; (bash || ash || sh)"
+    cmd="kubectl --kubeconfig $cfg exec -i -t -n $ns $container_name \
+    -c $service -- sh -c \"clear; (bash || ash || sh)\""
+
+    echo "cmd: $cmd"
+
+    eval $cmd
 
 elif [[ $type == "del" ]]; then
 
-    kubectl --kubeconfig ~/Downloads/oak/$cfg -n $ns delete pod $container_name --now
+    cmd="kubectl --kubeconfig $cfg -n $ns delete pod $container_name --now"
+
+    echo "cmd: $cmd"
+
+    eval $cmd
 
 fi
