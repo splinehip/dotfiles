@@ -3,10 +3,14 @@
 cfg="$HOME/Downloads/oak/kubeconfig.$1.json"
 ns=$2
 type=$3
-service=$4
+service="jazz-$4"
 
 if [[ $type == "pods" ]]; then
-    cmd="kubectl --kubeconfig $cfg -n $ns get pods"
+    filter=""
+
+    if [[ $service != "" ]]; then filter="| grep $service"; fi
+
+    cmd="kubectl --kubeconfig $cfg -n $ns get pods $filter"
 
     echo "cmd: $cmd"
     echo "|| ========= Geted pods ========= ||"
