@@ -5,6 +5,12 @@ ns=$2
 type=$3
 service="jazz-$4"
 
+if [[ $1 == "-h" || $1 == "-help" ]]; then
+    echo "usage ./oak.sh cfg_name[dev05|cce] name_space[oak|dev06] type[pods|log|sh|del] service_name"
+    echo -e "example for sip-manager log on dev05:\n./oak.sh dev05 oak log sip-manager"
+    exit 0
+fi
+
 if [[ $type == "pods" ]]; then
     filter=""
 
