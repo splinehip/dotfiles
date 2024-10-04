@@ -12,6 +12,24 @@
     {
       "path": "./deployments"
     },
+    {
+      "path": "./debug"
+    },
+    {
+      "path": "./gstreamer-static"
+    },
+    {
+      "path": "./gstreamer-pkg"
+    },
+    {
+      "path": "./sipjazzgw"
+    },
+    {
+      "path": "./project-jazzmedia"
+    },
+    {
+      "path": "./sigma_deployments"
+    },
   ],
   "settings": {
     "files.autoSave": "onFocusChange",
